@@ -2,6 +2,7 @@ package com.sm9.boot.config.cache;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.sm9.boot.pojo.SessionUserInfo;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
@@ -36,7 +37,7 @@ public class CacheConfig {
      * token放在本地缓存中
      */
     @Bean("tokenCacheManager")
-    public Cache<String, String> caffeineCache() {
+    public Cache<String, SessionUserInfo> caffeineCache() {
         return Caffeine.newBuilder()
                 // 设置最后一次访问后经过固定时间过期.
                 .expireAfterAccess(30L, TimeUnit.MINUTES)

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.sm9.boot.config.exception.CommonJsonException;
 import com.sm9.boot.dao.LoginDao;
+import com.sm9.boot.pojo.SessionUserInfo;
 import com.sm9.boot.util.ErrorEnum;
 import com.sm9.boot.util.JsonUtils;
 import com.sm9.boot.util.StringUtils;
@@ -17,9 +18,9 @@ public class LoginService {
 
     private final LoginDao loginDao;
     private final TokenService tokenService;
-    private final Cache<String, String> cacheMap;
+    private final Cache<String, SessionUserInfo> cacheMap;
 
-    public LoginService(LoginDao loginDao, TokenService tokenService, Cache<String, String> cacheMap) {
+    public LoginService(LoginDao loginDao, TokenService tokenService, Cache<String, SessionUserInfo> cacheMap) {
         this.loginDao = loginDao;
         this.tokenService = tokenService;
         this.cacheMap = cacheMap;
@@ -46,7 +47,7 @@ public class LoginService {
         String MDC_token = MDC.get("token");
         JSONObject info = new JSONObject();
         log.info("token:{}", MDC_token);
-        if(cacheMap.getIfPresent(MDC_token) != null){
+        if(MDC_token != null && cacheMap.getIfPresent(MDC_token) != null){
             return info;
         }
         info.put("token", tokenService.generateToken(username));

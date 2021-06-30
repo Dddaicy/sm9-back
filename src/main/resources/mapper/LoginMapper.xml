@@ -13,4 +13,41 @@
         FROM user u
         WHERE u.username = #{username}
     </select>
+
+    <resultMap id="userInfo" type="sessionUserInfo">
+        <collection property="roleIds" ofType="String">
+            <id column="roleId" property="roleId"/>
+        </collection>
+        <collection property="menuList" ofType="String">
+            <id column="menuCode" property="menuCode"/>
+        </collection>
+        <collection property="permissionList" ofType="String">
+            <id column="permissionCode" property="permissionCode"/>
+        </collection>
+    </resultMap>
+    <select id="getUserInfo" resultMap="userInfo">
+        SELECT u.id              userId,
+               u.username,
+               u.nickname,
+               ur.role_id        roleId,
+               p.menu_code       menuCode,
+               p.permission_code permissionCode
+        FROM user u
+                 LEFT JOIN user_role ur on u.id = ur.user_id
+                 LEFT JOIN role r ON r.id = ur.role_id
+                 LEFT JOIN role_permission rp ON r.id = rp.role_id
+                 LEFT JOIN permission p ON rp.permission_id = p.id
+        WHERE u.username = #{username}
+          AND u.user_state = '1'
+    </select>
+
+    <select id="getAllMenu" resultType="String">
+        select distinct(menu_code)
+        from permission;
+    </select>
+    <select id="getAllPermissionCode" resultType="String">
+        select permission_code
+        from permission;
+    </select>
+
 </mapper>
