@@ -28,7 +28,9 @@
     <select id="getUserInfo" resultMap="userInfo">
         SELECT u.id              userId,
                u.username,
-               u.nickname,
+               u.user_unit,
+               u.user_email,
+               u.user_phone_number,
                ur.role_id        roleId,
                p.menu_code       menuCode,
                p.permission_code permissionCode

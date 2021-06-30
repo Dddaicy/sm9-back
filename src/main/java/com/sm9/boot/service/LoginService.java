@@ -7,7 +7,6 @@ import com.sm9.boot.dao.LoginDao;
 import com.sm9.boot.pojo.SessionUserInfo;
 import com.sm9.boot.util.ErrorEnum;
 import com.sm9.boot.util.JsonUtils;
-import com.sm9.boot.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
@@ -18,12 +17,14 @@ public class LoginService {
 
     private final LoginDao loginDao;
     private final TokenService tokenService;
-    private final Cache<String, SessionUserInfo> cacheMap;
+    private final Cache<String, SessionUserInfo> sessionUserInfoCache;
+    private final Cache<String, String> userOnlineCache;
 
-    public LoginService(LoginDao loginDao, TokenService tokenService, Cache<String, SessionUserInfo> cacheMap) {
+    public LoginService(LoginDao loginDao, TokenService tokenService, Cache<String, SessionUserInfo> sessionUserInfoCache, Cache<String, String> userOnlineCache) {
         this.loginDao = loginDao;
         this.tokenService = tokenService;
-        this.cacheMap = cacheMap;
+        this.sessionUserInfoCache = sessionUserInfoCache;
+        this.userOnlineCache = userOnlineCache;
     }
 
     public JSONObject authLogin(JSONObject jsonObject) {
@@ -44,13 +45,21 @@ public class LoginService {
         if (user == null) {
             throw new CommonJsonException(ErrorEnum.E_91002);
         }
-        String MDC_token = MDC.get("token");
+        String token = MDC.get("token");
         JSONObject info = new JSONObject();
-        log.info("token:{}", MDC_token);
-        if(MDC_token != null && cacheMap.getIfPresent(MDC_token) != null){
+        log.info("token:{}", token);
+        if(token != null && sessionUserInfoCache.getIfPresent(token) != null){
+            info.put("token", token);
             return info;
         }
-        info.put("token", tokenService.generateToken(username));
+        token = userOnlineCache.getIfPresent(username);
+        if(token != null){
+            info.put("token", token);
+            return info;
+        }
+        token = tokenService.generateToken(username);
+        info.put("token", token);
+        userOnlineCache.put(username, token);
         return info;
     }
 

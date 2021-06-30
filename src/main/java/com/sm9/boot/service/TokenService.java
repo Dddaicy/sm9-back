@@ -57,7 +57,7 @@ public class TokenService {
         cacheMap.put(token, info);
     }
 
-    private SessionUserInfo getUserInfoByUsername(String username) {
+    public SessionUserInfo getUserInfoByUsername(String username) {
         SessionUserInfo userInfo = loginDao.getUserInfo(username);
         if (userInfo.getRoleIds().contains("1")|| userInfo.getRoleIds().contains("2")) {
             //管理员,查出全部按钮和权限码
