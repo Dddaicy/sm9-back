@@ -47,7 +47,6 @@ public class LoginService {
         }
         String token = MDC.get("token");
         JSONObject info = new JSONObject();
-        log.info("token:{}", token);
         if(token != null && sessionUserInfoCache.getIfPresent(token) != null){
             info.put("token", token);
             return info;
