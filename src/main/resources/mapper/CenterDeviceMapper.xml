@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sm9.boot.dao.CenterDeviceDao">
+    <cache/>
+    <select id="getCenterDeviceList" resultType="centerDevice">
+        select * from center_device limit #{offset}, #{count}
+    </select>
+
+    <select id="getCenterDeviceCount" resultType="_int">
+        select COUNT(*) from center_device
+    </select>
+
+    <select id="getCenterDeviceById" resultType="centerDevice">
+        select * from center_device where center_device_id = #{centerDeviceId}
+    </select>
+
+    <select id="getCenterDeviceListByState" resultType="centerDevice">
+        select * from center_device where center_device_state = #{centerDeviceState}
+    </select>
+
+    <insert id="addCenterDevice" parameterType="centerDevice" useGeneratedKeys="true" keyProperty="id">
+        insert into center_device
+        values (0, #{centerDeviceId}, #{centerDeviceIp},
+                #{centerDeviceName}, #{centerDeviceNumber},
+                #{centerDeviceState}, #{centerDeviceKeyState},
+                #{centerDevicePasswordState}, #{centerDevicePassword},
+                #{centerDeviceDescription})
+    </insert>
+
+    <update id="updateCenterDevice" parameterType="centerDevice">
+        update center_device set center_device_ip=#{centerDeviceIp},center_device_name=#{centerDeviceName},
+                                 center_device_number=#{centerDeviceNumber},center_device_state=#{centerDeviceState},
+                                 center_device_key_state=#{centerDeviceKeyState},center_device_password_state=#{centerDevicePasswordState},
+                                 center_device_password=#{centerDevicePassword},center_device_description=#{centerDeviceDescription}
+        where center_device_id=#{centerDeviceId}
+    </update>
+
+    <delete id="deleteCenterDeviceById">
+        delete from center_device where center_device_id=#{centerDeviceId}
+    </delete>
+
+    <delete id="deleteCenterDeviceByState">
+        delete from center_device where center_device_state=#{CenterDeviceState}
+    </delete>
+</mapper>
