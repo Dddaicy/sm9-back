@@ -47,7 +47,6 @@ public class LoginService {
         JSONObject info = new JSONObject();
         log.info("token:{}", MDC_token);
         if(cacheMap.getIfPresent(MDC_token) != null){
-            info.put("token", MDC_token);
             return info;
         }
         info.put("token", tokenService.generateToken(username));

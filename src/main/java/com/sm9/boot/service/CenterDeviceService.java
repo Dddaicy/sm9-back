@@ -2,7 +2,6 @@ package com.sm9.boot.service;
 
 import com.sm9.boot.dao.CenterDeviceDao;
 import com.sm9.boot.pojo.CenterDevice;
-import com.sun.istack.internal.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
