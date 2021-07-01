@@ -9,7 +9,9 @@ import java.util.Set;
 public class SessionUserInfo {
     private int userId;
     private String username;
-    private String nickname;
+    private String userUnit;
+    private String userEmail;
+    private String userPhoneNumber;
     private List<String> roleIds;
     private Set<String> menuList;
     private List<String> permissionList;

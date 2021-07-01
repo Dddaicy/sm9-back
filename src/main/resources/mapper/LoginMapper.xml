@@ -15,6 +15,11 @@
     </select>
 
     <resultMap id="userInfo" type="sessionUserInfo">
+        <id column="userId" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="userUnit" property="userUnit"/>
+        <result column="userEmail" property="userEmail"/>
+        <result column="userPhoneNumber" property="userPhoneNumber"/>
         <collection property="roleIds" ofType="String">
             <id column="roleId" property="roleId"/>
         </collection>
@@ -27,10 +32,10 @@
     </resultMap>
     <select id="getUserInfo" resultMap="userInfo">
         SELECT u.id              userId,
-               u.username,
-               u.user_unit,
-               u.user_email,
-               u.user_phone_number,
+               u.username        username,
+               u.user_unit       userUnit,
+               u.user_email      userEmail,
+               u.user_phone_number userPhoneNumber,
                ur.role_id        roleId,
                p.menu_code       menuCode,
                p.permission_code permissionCode

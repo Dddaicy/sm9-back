@@ -16,10 +16,12 @@ import java.util.UUID;
 @Slf4j
 public class TokenService {
     private final Cache<String, SessionUserInfo> cacheMap;
+    private final Cache<String, String> userOnlineCache;
     private final LoginDao loginDao;
 
-    public TokenService(Cache<String, SessionUserInfo> cacheMap, LoginDao loginDao) {
+    public TokenService(Cache<String, SessionUserInfo> cacheMap, Cache<String, String> userOnlineCache, LoginDao loginDao) {
         this.cacheMap = cacheMap;
+        this.userOnlineCache = userOnlineCache;
         this.loginDao = loginDao;
     }
 
@@ -32,6 +34,8 @@ public class TokenService {
     public void invalidateToken() {
         String token = MDC.get("token");
         if (!StringUtils.isNullOrEmpty(token)) {
+            SessionUserInfo userInfo = getUserInfo(token);
+            userOnlineCache.invalidate(userInfo.getUsername());
             cacheMap.invalidate(token);
         }
         log.info("退出登录,清除缓存:token={}", token);
@@ -39,6 +43,10 @@ public class TokenService {
 
     public SessionUserInfo getUserInfo() {
         String token = MDC.get("token");
+        return getUserInfo(token);
+    }
+
+    public SessionUserInfo getUserInfo(String token) {
         if (StringUtils.isNullOrEmpty(token)) {
             throw new CommonJsonException(ErrorEnum.E_91004);
         }
