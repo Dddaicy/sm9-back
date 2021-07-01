@@ -2,7 +2,6 @@ package com.sm9.boot.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.sm9.boot.pojo.CenterDevice;
 import com.sm9.boot.pojo.TerminalDevice;
 import com.sm9.boot.service.TerminalDeviceService;
 import com.sm9.boot.util.JsonUtils;
