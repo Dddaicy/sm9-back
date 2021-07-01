@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sm9.boot.dao.TerminalDeviceDao">
+
+    <cache/>
+    <select id="getTerminalDeviceList" resultType="terminalDevice">
+        select * from terminal_device limit #{offset}, #{count}
+    </select>
+
+    <select id="getTerminalDeviceCount" resultType="_int">
+        select COUNT(*) from terminal_device
+    </select>
+
+    <select id="getTerminalDeviceById" resultType="terminalDevice">
+        select * from terminal_device where terminal_device_id = #{terminalDeviceId}
+    </select>
+
+    <delete id="deleteTerminalDeviceById">
+        delete from terminal_device where terminal_device_id=#{terminalDeviceId}
+    </delete>
+
+    <insert id="addTerminalDevice" parameterType="terminalDevice" useGeneratedKeys="true" keyProperty="id">
+        insert into terminal_device
+        values (0, #{terminalDeviceId}, #{terminalDeviceIp},
+                #{terminalDeviceName}, #{terminalDeviceCenterDeviceId},
+                #{terminalDeviceKeyState}, #{terminalDeviceDescription})
+    </insert>
+
+    <update id="updateTerminalDevice" parameterType="terminalDevice">
+        update terminal_device set terminal_device_ip=#{terminalDeviceIp},terminal_device_name=#{terminalDeviceName},
+                                   terminal_device_center_device_id=#{terminalDeviceCenterDeviceId},terminal_device_key_state=#{terminalDeviceKeyState},
+                                   terminal_device_description=#{terminalDeviceDescription}
+        where terminal_device_id=#{terminalDeviceId}
+    </update>
+
+    <select id="getTerminalDeviceListByCenterDeviceId" resultType="terminalDevice">
+        select * from terminal_device where terminal_device_center_device_id = #{terminalDeviceCenterDeviceId}
+    </select>
+
+    <delete id="deleteTerminalDeviceByCenterDeviceId">
+        delete from terminal_device where terminal_device_center_device_id=#{terminalDeviceCenterDeviceId}
+    </delete>
+</mapper>
