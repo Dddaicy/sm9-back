@@ -63,4 +63,15 @@ public class JsonUtils {
         resultJson.put("info", info);
         return resultJson;
     }
+
+    public static JSONObject successPage(Object jsonArray, int pageNum, Integer pageRow, int count) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("list", jsonArray);
+        jsonObject.put("pageNum", pageNum);
+        jsonObject.put("pageRow", pageRow);
+        jsonObject.put("totalCount", count);
+        jsonObject.put("code", S_90000.getCode());
+        jsonObject.put("msg", S_90000.getMsg());
+        return jsonObject;
+    }
 }
