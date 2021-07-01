@@ -67,7 +67,7 @@ public class LoginService {
 
     public JSONObject logout() {
         tokenService.invalidateToken();
-        return new JSONObject();
+        return JsonUtils.successJson(null);
     }
 
     public JSONObject getInfo() {
