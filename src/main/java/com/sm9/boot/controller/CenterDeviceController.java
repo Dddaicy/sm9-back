@@ -25,7 +25,9 @@ public class CenterDeviceController {
      * 查询参数中传入center-device-state，则按center-device-state查询并返回设备列表
      * 前端pageRow传值null时，返回所有设备，传pageNum和pageRow时返回特定页数的设备列表
      *
-     * @param json 前端数据
+     * @param json 前端RequestBody数据
+     * @param centerDeviceId 中心侧设备Id
+     * @param centerDeviceState 中心侧设备状态
      * @return JSONObject
      */
     @GetMapping(value = "/center-devices")
