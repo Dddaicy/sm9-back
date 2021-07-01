@@ -3,10 +3,7 @@ package com.sm9.boot.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sm9.boot.service.LoginService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -27,5 +24,10 @@ public class LoginController {
     @PostMapping("/logout")
     public JSONObject logout(){
         return loginService.logout();
+    }
+
+    @PostMapping("/getInfo")
+    public JSONObject getInfo() {
+        return loginService.getInfo();
     }
 }

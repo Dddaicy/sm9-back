@@ -7,6 +7,7 @@ import com.sm9.boot.dao.LoginDao;
 import com.sm9.boot.pojo.SessionUserInfo;
 import com.sm9.boot.util.ErrorEnum;
 import com.sm9.boot.util.JsonUtils;
+import com.sm9.boot.util.SuccessEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,8 @@ public class LoginService {
         }
         String token = MDC.get("token");
         JSONObject info = new JSONObject();
+        info.put("code", SuccessEnum.S_90001.getCode());
+        info.put("msg", SuccessEnum.S_90001.getMsg());
         if(token != null && sessionUserInfoCache.getIfPresent(token) != null){
             info.put("token", token);
             return info;
@@ -67,4 +70,9 @@ public class LoginService {
         return new JSONObject();
     }
 
+    public JSONObject getInfo() {
+        SessionUserInfo userInfo = tokenService.getUserInfo();
+        log.info(userInfo.toString());
+        return JsonUtils.successJson(userInfo);
+    }
 }
