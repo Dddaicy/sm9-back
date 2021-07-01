@@ -6,14 +6,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sm9.boot.pojo.CenterDevice;
 import com.sm9.boot.service.CenterDeviceService;
+import com.sm9.boot.util.JsonUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static com.sm9.boot.util.SuccessEnum.S_90000;
 
 @RestController
 public class CenterDeviceController {
@@ -33,12 +29,16 @@ public class CenterDeviceController {
      * @return JSONObject
      */
     @GetMapping(value = "/center-devices")
-    public Object getCenterDeviceList(@RequestBody JSONObject json,
+    public Object getCenterDeviceList(@RequestBody(required = false) JSONObject json,
                                       @RequestParam(value = "id", required = false) String centerDeviceId,
                                       @RequestParam(value = "center-device-state", required = false) String centerDeviceState) {
         List<CenterDevice> deviceList;
-        int pageNum = (int) json.getOrDefault("pageNum", 1);
-        Integer pageRow = (Integer) json.getOrDefault("pageRow", 10);
+        int pageNum = 1;
+        Integer pageRow = 10;
+        if(json != null){
+            pageNum = (int) json.getOrDefault("pageNum", 1);
+            pageRow = (Integer) json.getOrDefault("pageRow", 10);
+        }
         int count = centerDeviceService.getCenterDeviceCount();
         if(centerDeviceId != null){
             return centerDeviceService.getCenterDeviceById(centerDeviceId);
@@ -48,15 +48,7 @@ public class CenterDeviceController {
             deviceList = centerDeviceService.listCenterDevice(0, count);
         } else
             deviceList = centerDeviceService.listCenterDevice((pageNum - 1) * pageRow, pageRow);
-        JSONArray jsonArray = (JSONArray) JSON.toJSON(deviceList);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("list", jsonArray);
-        jsonObject.put("pageNum", pageNum);
-        jsonObject.put("pageRow", pageRow);
-        jsonObject.put("totalCount", count);
-        jsonObject.put("msg", S_90000.getMsg());
-        jsonObject.put("code", S_90000.getCode());
-        return jsonObject;
+        return JsonUtils.successPage(JSON.toJSON(deviceList), pageNum, pageRow, count);
     }
 
     @PostMapping("/center-devices")
