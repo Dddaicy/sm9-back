@@ -52,7 +52,7 @@ public class JsonUtils {
         JSONObject resultJson = new JSONObject();
         resultJson.put("code", errorEnum.getErrorCode());
         resultJson.put("reason", errorEnum.getErrorReason());
-        resultJson.put("info", errorEnum.getErrorMsg());
+        resultJson.put("msg", errorEnum.getErrorMsg());
         return resultJson;
     }
 

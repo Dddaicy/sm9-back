@@ -48,8 +48,8 @@ public class LoginService {
         }
         String token = MDC.get("token");
         JSONObject info = new JSONObject();
-        info.put("code", SuccessEnum.S_90001.getCode());
-        info.put("msg", SuccessEnum.S_90001.getMsg());
+        info.put("code", SuccessEnum.S_90000.getCode());
+        info.put("msg", SuccessEnum.S_90000.getMsg());
         if(token != null && sessionUserInfoCache.getIfPresent(token) != null){
             info.put("token", token);
             return info;

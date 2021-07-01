@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.sm9.boot.util.SuccessEnum.S_90000;
+
 @RestController
 public class CenterDeviceController {
 
@@ -52,8 +54,8 @@ public class CenterDeviceController {
         jsonObject.put("pageNum", pageNum);
         jsonObject.put("pageRow", pageRow);
         jsonObject.put("totalCount", count);
-        jsonObject.put("Msg", "");
-        jsonObject.put("Code", 100);
+        jsonObject.put("msg", S_90000.getMsg());
+        jsonObject.put("code", S_90000.getCode());
         return jsonObject;
     }
 
