@@ -5,7 +5,15 @@
 
     <cache/>
     <select id="getTerminalDeviceList" resultType="terminalDevice">
-        select * from terminal_device limit #{offset}, #{count}
+        select td.terminal_device_id,
+               td.terminal_device_name,
+               td.terminal_device_ip,
+               td.terminal_device_key_state,
+               td.terminal_device_description,
+               r.center_device_id terminalDeviceCenterDeviceId
+        from terminal_device td
+            left join relation r on td.terminal_device_id = r.terminal_device_id
+        limit #{offset}, #{count}
     </select>
 
     <select id="getTerminalDeviceCount" resultType="_int">
@@ -13,32 +21,56 @@
     </select>
 
     <select id="getTerminalDeviceById" resultType="terminalDevice">
-        select * from terminal_device where terminal_device_id = #{terminalDeviceId}
+        select td.terminal_device_id,
+               td.terminal_device_name,
+               td.terminal_device_ip,
+               td.terminal_device_key_state,
+               td.terminal_device_description,
+               r.center_device_id terminalDeviceCenterDeviceId
+        from terminal_device td
+            left join relation r on td.terminal_device_id = r.terminal_device_id
+        where td.terminal_device_id = #{terminalDeviceId}
     </select>
 
     <delete id="deleteTerminalDeviceById">
         delete from terminal_device where terminal_device_id=#{terminalDeviceId}
     </delete>
 
-    <insert id="addTerminalDevice" parameterType="terminalDevice" useGeneratedKeys="true" keyProperty="id">
+    <insert id="addTerminalDevice" parameterType="terminalDevice">
         insert into terminal_device
-        values (0, #{terminalDeviceId}, #{terminalDeviceIp},
-                #{terminalDeviceName}, #{terminalDeviceCenterDeviceId},
-                #{terminalDeviceKeyState}, #{terminalDeviceDescription})
+        values (#{terminalDeviceId},
+                #{terminalDeviceIp},#{terminalDeviceName},
+                #{terminalDeviceKeyState},#{terminalDeviceDescription})
     </insert>
 
     <update id="updateTerminalDevice" parameterType="terminalDevice">
-        update terminal_device set terminal_device_ip=#{terminalDeviceIp},terminal_device_name=#{terminalDeviceName},
-                                   terminal_device_center_device_id=#{terminalDeviceCenterDeviceId},terminal_device_key_state=#{terminalDeviceKeyState},
-                                   terminal_device_description=#{terminalDeviceDescription}
+        update terminal_device
+        <trim prefix="set" suffixOverrides=",">
+            <if test="terminalDeviceIp != null">terminal_device_ip=#{terminalDeviceIp},</if>
+            <if test="terminalDeviceName != null">terminal_device_name=#{terminalDeviceName},</if>
+            <if test="terminalDeviceKeyState != null">terminal_device_key_state=#{terminalDeviceKeyState},</if>
+            <if test="terminalDeviceDescription != null">terminal_device_description=#{terminalDeviceDescription}</if>
+        </trim>
         where terminal_device_id=#{terminalDeviceId}
     </update>
 
     <select id="getTerminalDeviceListByCenterDeviceId" resultType="terminalDevice">
-        select * from terminal_device where terminal_device_center_device_id = #{terminalDeviceCenterDeviceId}
+        select td.terminal_device_id,
+               td.terminal_device_name,
+               td.terminal_device_ip,
+               td.terminal_device_key_state,
+               td.terminal_device_description,
+               r.center_device_id terminalDeviceCenterDeviceId
+        from terminal_device td
+            left join relation r on td.terminal_device_id = r.terminal_device_id
+        where r.center_device_id = #{terminalDeviceCenterDeviceId}
+        limit #{offset}, #{count}
     </select>
 
     <delete id="deleteTerminalDeviceByCenterDeviceId">
-        delete from terminal_device where terminal_device_center_device_id=#{terminalDeviceCenterDeviceId}
+        delete from terminal_device where terminal_device_id in
+        <foreach collection="list" item="relation" open="(" separator="," close=")">
+            #{relation.terminalDeviceId}
+        </foreach>
     </delete>
 </mapper>

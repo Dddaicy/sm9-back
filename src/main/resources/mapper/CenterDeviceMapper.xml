@@ -16,12 +16,12 @@
     </select>
 
     <select id="getCenterDeviceListByState" resultType="centerDevice">
-        select * from center_device where center_device_state = #{centerDeviceState}
+        select * from center_device where center_device_state = #{centerDeviceState} limit #{offset}, #{count}
     </select>
 
-    <insert id="addCenterDevice" parameterType="centerDevice" useGeneratedKeys="true" keyProperty="id">
+    <insert id="addCenterDevice" parameterType="centerDevice">
         insert into center_device
-        values (0, #{centerDeviceId}, #{centerDeviceIp},
+        values (#{centerDeviceId}, #{centerDeviceIp},
                 #{centerDeviceName}, #{centerDeviceNumber},
                 #{centerDeviceState}, #{centerDeviceKeyState},
                 #{centerDevicePasswordState}, #{centerDevicePassword},
@@ -29,10 +29,17 @@
     </insert>
 
     <update id="updateCenterDevice" parameterType="centerDevice">
-        update center_device set center_device_ip=#{centerDeviceIp},center_device_name=#{centerDeviceName},
-                                 center_device_number=#{centerDeviceNumber},center_device_state=#{centerDeviceState},
-                                 center_device_key_state=#{centerDeviceKeyState},center_device_password_state=#{centerDevicePasswordState},
-                                 center_device_password=#{centerDevicePassword},center_device_description=#{centerDeviceDescription}
+        update center_device
+        <trim prefix="set" suffixOverrides=",">
+            <if test="centerDeviceIp != null">center_device_ip=#{centerDeviceIp},</if>
+            <if test="centerDeviceName != null">center_device_name=#{centerDeviceName},</if>
+            <if test="centerDeviceNumber != null">center_device_number=#{centerDeviceNumber},</if>
+            <if test="centerDeviceState != null">center_device_state=#{centerDeviceState},</if>
+            <if test="centerDeviceKeyState != null">center_device_key_state=#{centerDeviceKeyState},</if>
+            <if test="centerDevicePasswordState != null">center_device_password_state=#{centerDevicePasswordState},</if>
+            <if test="centerDevicePassword != null">center_device_password=#{centerDevicePassword},</if>
+            <if test="centerDeviceDescription != null">center_device_description=#{centerDeviceDescription}</if>
+        </trim>
         where center_device_id=#{centerDeviceId}
     </update>
 

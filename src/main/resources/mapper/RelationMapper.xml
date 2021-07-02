@@ -11,6 +11,10 @@
         select * from relation where center_device_id=#{centerDeviceId} limit #{offset}, #{count}
     </select>
 
+    <select id="getAllRelationsByCenterDeviceId" resultType="relation">
+        select * from relation where center_device_id=#{centerDeviceId}
+    </select>
+
     <select id="getRelationList" resultType="relation">
         select * from relation limit #{offset}, #{count}
     </select>
@@ -22,11 +26,11 @@
             </foreach>
     </delete>
 
-    <insert id="addRelation" useGeneratedKeys="true" keyProperty="id">
+    <insert id="addRelation" parameterType="relation" useGeneratedKeys="true" keyProperty="id">
         insert into relation values (0,#{terminalDeviceId}, #{centerDeviceId})
     </insert>
 
-<!--    <update id="updateRelation">-->
-<!--        update relation set terminal_device_id=#{terminalDeviceId},-->
-<!--    </update>-->
+    <update id="updateRelation">
+        update relation set center_device_id=#{centerDeviceId} where terminal_device_id=#{terminalDeviceId}
+    </update>
 </mapper>
