@@ -9,13 +9,15 @@ import java.util.List;
 public interface RelationDao {
     List<Relation> getRelationListByCenterDeviceId(String centerDeviceId, int offset, int count);
 
+    List<Relation> getAllRelationsByCenterDeviceId(String centerDeviceId);
+
     List<Relation> getRelationList(int offset, int count);
 
     int deleteRelation(String centerDeviceId, String... terminalDeviceIds);
 
-    void addRelation(String centerDeviceId, String terminalDeviceId);
+    void addRelation(Relation relation);
 
     int getRelationCount();
 
-//    int updateRelation(String centerDeviceId, String terminalDeviceId);
+    void updateRelation(String centerDeviceId, String terminalDeviceId);
 }
