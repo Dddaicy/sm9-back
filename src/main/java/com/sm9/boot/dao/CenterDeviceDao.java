@@ -14,6 +14,6 @@ public interface CenterDeviceDao {
     void addCenterDevice(CenterDevice centerDevice);
     int updateCenterDevice(CenterDevice centerDevice);
     int deleteCenterDeviceById(String centerDeviceId);
-    List<CenterDevice> getCenterDeviceListByState(String centerDeviceState);
+    List<CenterDevice> getCenterDeviceListByState(String centerDeviceState, int offset, int count);
     int deleteCenterDeviceListByState(String centerDeviceState);
 }
