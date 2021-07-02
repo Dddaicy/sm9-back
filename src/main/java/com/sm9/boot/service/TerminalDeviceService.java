@@ -50,7 +50,7 @@ public class TerminalDeviceService {
             Relation relation = new Relation(terminalDevice.getTerminalDeviceCenterDeviceId(), terminalDevice.getTerminalDeviceId());
             relationDao.addRelation(relation);
         } catch (DuplicateKeyException e){
-            throw new CommonJsonException(e, "终端设备id重复");
+            throw new CommonJsonException(e, "终端侧设备id重复");
         }
         catch (DataIntegrityViolationException e){
             throw new CommonJsonException(e, "请传入完整的终端侧设备参数");
