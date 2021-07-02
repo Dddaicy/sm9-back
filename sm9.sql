@@ -292,16 +292,16 @@ DROP TABLE IF EXISTS `ukey_info`;
 CREATE TABLE `ukey_info`
 (
     `id`                      int unsigned AUTO_INCREMENT NOT NULL,
-    `UKey_id`                 varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'UKeyid',
-    `UKey_center_device_id`   varchar(6) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '该UKey所属的中心侧设备id',
-    `UKey_terminal_device_id` varchar(6) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '该UKey所属的终端侧设备id',
-    `UKey_modify_time`         timestamp(6) NULL DEFAULT NULL COMMENT 'UKey最后发送时间',
-    `UKey_times`              varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'UKey发送次数',
+    `ukey_id`                 varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'UKeyid',
+    `ukey_center_device_id`   varchar(6) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '该UKey所属的中心侧设备id',
+    `ukey_terminal_device_id` varchar(6) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '该UKey所属的终端侧设备id',
+    `ukey_modify_time`         timestamp(6) NULL DEFAULT NULL COMMENT 'UKey最后发送时间',
+    `ukey_times`              varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'UKey发送次数',
     PRIMARY KEY (`id`) USING BTREE,
-    INDEX                     `UKey_center_device_id`(`UKey_center_device_id`) USING BTREE,
-    INDEX                     `UKey_device_id`(`UKey_terminal_device_id`) USING BTREE,
-    CONSTRAINT `ukey_info_ibfk_1` FOREIGN KEY (`UKey_center_device_id`) REFERENCES `center_device` (`center_device_id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT `ukey_info_ibfk_2` FOREIGN KEY (`UKey_terminal_device_id`) REFERENCES `terminal_device` (`terminal_device_id`) ON DELETE SET NULL ON UPDATE CASCADE
+    INDEX                     `ukey_center_device_id`(`ukey_center_device_id`) USING BTREE,
+    INDEX                     `ukey_terminal_device_id`(`ukey_terminal_device_id`) USING BTREE,
+    CONSTRAINT `ukey_info_ibfk_1` FOREIGN KEY (`ukey_center_device_id`) REFERENCES `center_device` (`center_device_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT `ukey_info_ibfk_2` FOREIGN KEY (`ukey_terminal_device_id`) REFERENCES `terminal_device` (`terminal_device_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
