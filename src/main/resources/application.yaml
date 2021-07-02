@@ -3,7 +3,7 @@ mybatis:
   type-aliases-package: com.sm9.boot.pojo
   configuration:
     map-underscore-to-camel-case: true
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 spring:
   datasource:
     username: root
