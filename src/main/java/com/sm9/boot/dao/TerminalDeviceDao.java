@@ -1,6 +1,7 @@
 package com.sm9.boot.dao;
 
 
+import com.sm9.boot.pojo.Relation;
 import com.sm9.boot.pojo.TerminalDevice;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,9 +14,9 @@ public interface TerminalDeviceDao {
     int getTerminalDeviceCount();
     TerminalDevice getTerminalDeviceById(String terminalDeviceId);
     void addTerminalDevice(TerminalDevice terminalDevice);
-    int updateTerminalDevice(TerminalDevice terminalDevice);
-    int deleteTerminalDeviceById(String terminalDeviceId);
-    List<TerminalDevice> getTerminalDeviceListByCenterDeviceId(String centerDeviceId);
-    int deleteTerminalDeviceByCenterDeviceId(String centerDeviceId);
+    void updateTerminalDevice(TerminalDevice terminalDevice);
+    void deleteTerminalDeviceById(String terminalDeviceId);
+    List<TerminalDevice> getTerminalDeviceListByCenterDeviceId(String terminalDeviceCenterDeviceId, int offset, int count);
+    void deleteTerminalDeviceByCenterDeviceId(List<Relation> relations);
 
 }
