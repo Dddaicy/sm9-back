@@ -33,13 +33,11 @@ public class LoginService {
         String password = jsonObject.getString("password");
         // 字段必填，否则报错
         if(username == null || password == null){
-            JSONObject errorJson = JsonUtils.errorJson(ErrorEnum.E_91003);
-            throw new CommonJsonException(errorJson);
+            throw new CommonJsonException(ErrorEnum.E_91003);
         }
         // 判断用户是否存在
         if(loginDao.getUserIdByUserName(username) == null){
-            JSONObject errorJson = JsonUtils.errorJson(ErrorEnum.E_91001);
-            throw new CommonJsonException(errorJson);
+            throw new CommonJsonException(ErrorEnum.E_91001);
         }
         // 用户登录
         JSONObject user = loginDao.login(username, password);
@@ -47,22 +45,16 @@ public class LoginService {
             throw new CommonJsonException(ErrorEnum.E_91002);
         }
         String token = MDC.get("token");
-        JSONObject info = new JSONObject();
-        info.put("code", SuccessEnum.S_90000.getCode());
-        info.put("msg", SuccessEnum.S_90000.getMsg());
         if(token != null && sessionUserInfoCache.getIfPresent(token) != null){
-            info.put("token", token);
-            return info;
+            return JsonUtils.successJson(token);
         }
         token = userOnlineCache.getIfPresent(username);
         if(token != null){
-            info.put("token", token);
-            return info;
+            return JsonUtils.successJson(token);
         }
         token = tokenService.generateToken(username);
-        info.put("token", token);
         userOnlineCache.put(username, token);
-        return info;
+        return JsonUtils.successJson(token);
     }
 
     public JSONObject logout() {
