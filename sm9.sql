@@ -44,7 +44,6 @@ CREATE TABLE `backup`
 DROP TABLE IF EXISTS `center_device`;
 CREATE TABLE `center_device`
 (
-    `id`                          int unsigned AUTO_INCREMENT NOT NULL,
     `center_device_id`            varchar(6) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '中心侧设备id',
     `center_device_ip`            varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '中心侧设备ip',
     `center_device_name`          varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '中心侧设备名称',
@@ -54,7 +53,7 @@ CREATE TABLE `center_device`
     `center_device_password_state` varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '中心侧设备随机密码状态',
     `center_device_password`      varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '中心侧设备随机密码',
     `center_device_description`      varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '中心侧设备描述',
-    PRIMARY KEY (`id`, `center_device_id`) USING BTREE,
+    PRIMARY KEY (`center_device_id`) USING BTREE,
     INDEX                         `center_device_id`(`center_device_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -62,8 +61,30 @@ CREATE TABLE `center_device`
 -- Records of center_device
 -- ----------------------------
 INSERT INTO `center_device`
-VALUES (0, '3358', '192.168.1.2', '中心测设备1', 100, 'ok', 'ok', 'ok', '123456', NULL),
-       (0, '3359', '192.168.1.3', '中心测设备2', 10, 'ok', 'ok', 'ok', '123456', NULL);
+VALUES ('3358', '192.168.1.2', '中心测设备1', 100, 'ok', 'ok', 'ok', '123456', NULL),
+       ('3359', '192.168.1.3', '中心测设备2', 10, 'ok', 'ok', 'ok', '123456', NULL);
+-- ----------------------------
+-- Table structure for terminal_device
+-- ----------------------------
+DROP TABLE IF EXISTS `terminal_device`;
+CREATE TABLE `terminal_device`
+(
+    `terminal_device_id`               varchar(6) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '终端侧设备id（主键）',
+    `terminal_device_ip`               varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '终端设备ip',
+    `terminal_device_name`             varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '终端侧设备名称',
+    `terminal_device_key_state`         varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否接受密钥',
+    `terminal_device_description`         varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备地点（描述）',
+    PRIMARY KEY (`terminal_device_id`) USING BTREE,
+    INDEX                              `terminal_device_id`(`terminal_device_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of terminal_device
+-- ----------------------------
+INSERT INTO `terminal_device`
+VALUES ('1', '10.0.0.1', '终端侧设备1', '1', '北京'),
+       ('2', '10.0.0.2', '终端侧设备2', '1', '上海'),
+       ('3', '10.0.0.3', '终端侧设备3', '1', '天津');
 -- ----------------------------
 -- Table structure for device_key
 -- ----------------------------
@@ -132,14 +153,13 @@ CREATE TABLE `log`
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission`
 (
-    `id`                  int unsigned AUTO_INCREMENT NOT NULL,
     `permission_id`       varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限id',
     `menu_code`           varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '归属菜单',
     `menu_name`           varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单的中文释义',
     `permission_code`     varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限代码/通配符',
     `permission_name`     varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '本权限的中文释义',
     `required_permission` tinyint(1) NULL DEFAULT NULL COMMENT '是否本菜单必选权限，1为必选，2为非必选',
-    PRIMARY KEY (`id`, `permission_id`) USING BTREE,
+    PRIMARY KEY (`permission_id`) USING BTREE,
     INDEX                 `permission_id`(`permission_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -147,29 +167,29 @@ CREATE TABLE `permission`
 -- Records of permission
 -- ----------------------------
 INSERT INTO `permission`
-VALUES (0, 1, 'device', '设备管理', 'device:list', '列表', 1),
-       (0, 2, 'device', '设备管理', 'device:add', '新增', 2),
-       (0, 3, 'device', '设备管理', 'device:update', '修改', 2),
-       (0, 4, 'device', '设备管理', 'device:delete', '删除', 2),
-       (0, 5, 'user', '用户管理', 'user:list', '列表', 1),
-       (0, 6, 'user', '用户管理', 'user:add', '新增', 2),
-       (0, 7, 'user', '用户管理', 'user:update', '修改', 2),
-       (0, 8, 'user', '用户管理', 'user:delete', '删除', 2),
-       (0, 9, 'permission', '权限管理', 'permission:list', '列表', 1),
-       (0, 10, 'permission', '权限管理', 'permission:add', '新增', 2),
-       (0, 11, 'permission', '权限管理', 'permission:update', '修改', 2),
-       (0, 12, 'permission', '权限管理', 'permission:delete', '删除', 2),
-       (0, 13, 'data', '数据管理', 'data:list', '列表', 1),
-       (0, 14, 'data', '数据管理', 'data:add', '新增', 2),
-       (0, 15, 'data', '数据管理', 'data:update', '修改', 2),
-       (0, 16, 'data', '数据管理', 'data:delete', '删除', 2),
-       (0, 17, 'network', '网络配置', 'network:list', '列表', 1),
-       (0, 18, 'network', '网络配置', 'network:hard', '修改', 2),
-       (0, 19, 'monitor', '系统监控', 'monitor:hardware', '硬件资源占用监控', 2),
-       (0, 20, 'monitor', '系统监控', 'monitor:software', '软件系统的启动和监测', 2),
-       (0, 21, 'monitor', '系统监控', 'monitor:online', '在线用户监控', 2),
-       (0, 22, 'log', '日志管理', 'log:list', '列表', 1),
-       (0, 23, 'log', '日志管理', 'log:delete', '删除', 2);
+VALUES (1, 'device', '设备管理', 'device:list', '列表', 1),
+       (2, 'device', '设备管理', 'device:add', '新增', 2),
+       (3, 'device', '设备管理', 'device:update', '修改', 2),
+       (4, 'device', '设备管理', 'device:delete', '删除', 2),
+       (5, 'user', '用户管理', 'user:list', '列表', 1),
+       (6, 'user', '用户管理', 'user:add', '新增', 2),
+       (7, 'user', '用户管理', 'user:update', '修改', 2),
+       (8, 'user', '用户管理', 'user:delete', '删除', 2),
+       (9, 'permission', '权限管理', 'permission:list', '列表', 1),
+       (10, 'permission', '权限管理', 'permission:add', '新增', 2),
+       (11, 'permission', '权限管理', 'permission:update', '修改', 2),
+       (12, 'permission', '权限管理', 'permission:delete', '删除', 2),
+       (13, 'data', '数据管理', 'data:list', '列表', 1),
+       (14, 'data', '数据管理', 'data:add', '新增', 2),
+       (15, 'data', '数据管理', 'data:update', '修改', 2),
+       (16, 'data', '数据管理', 'data:delete', '删除', 2),
+       (17, 'network', '网络配置', 'network:list', '列表', 1),
+       (18, 'network', '网络配置', 'network:hard', '修改', 2),
+       (19, 'monitor', '系统监控', 'monitor:hardware', '硬件资源占用监控', 2),
+       (20, 'monitor', '系统监控', 'monitor:software', '软件系统的启动和监测', 2),
+       (21, 'monitor', '系统监控', 'monitor:online', '在线用户监控', 2),
+       (22, 'log', '日志管理', 'log:list', '列表', 1),
+       (23, 'log', '日志管理', 'log:delete', '删除', 2);
 -- ----------------------------
 -- Table structure for relation
 -- ----------------------------
@@ -182,25 +202,27 @@ CREATE TABLE `relation`
     PRIMARY KEY (`id`) USING BTREE,
     INDEX                `terminal_device_id`(`terminal_device_id`) USING BTREE,
     INDEX                `center_device_id`(`center_device_id`) USING BTREE,
-    CONSTRAINT `relation_ibfk_1` FOREIGN KEY (`terminal_device_id`) REFERENCES `terminal_device` (`terminal_device_id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT `relation_ibfk_2` FOREIGN KEY (`center_device_id`) REFERENCES `center_device` (`center_device_id`) ON DELETE SET NULL ON UPDATE CASCADE
+    CONSTRAINT `relation_ibfk_1` FOREIGN KEY (`terminal_device_id`) REFERENCES `terminal_device` (`terminal_device_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `relation_ibfk_2` FOREIGN KEY (`center_device_id`) REFERENCES `center_device` (`center_device_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of relation
 -- ----------------------------
-
+INSERT INTO relation
+VALUES (0, '1','3358'),
+       (0, '2', '3359'),
+       (0, '3', '3359');
 -- ----------------------------
 -- Table structure for role
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role`
 (
-    `id`               int unsigned AUTO_INCREMENT NOT NULL,
     `role_id`          varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色id',
     `role_name`        varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
     `role_description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色描述',
-    PRIMARY KEY (`id`, `role_id`) USING BTREE,
+    PRIMARY KEY (`role_id`) USING BTREE,
     INDEX              `role_id`(`role_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -208,11 +230,11 @@ CREATE TABLE `role`
 -- Records of role
 -- ----------------------------
 INSERT INTO `role`
-VALUES (1, '1', '管理员', '管理员');
+VALUES ('1', '管理员', '管理员');
 INSERT INTO `role`
-VALUES (2, '2', '普通用户', '普通用户');
+VALUES ('2', '普通用户', '普通用户');
 INSERT INTO `role`
-VALUES (3, '3', '超级管理员', '超级管理员');
+VALUES ('3', '超级管理员', '超级管理员');
 
 -- ----------------------------
 -- Table structure for role_permission
@@ -263,29 +285,6 @@ CREATE TABLE `service_platform_info`
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for terminal_device
--- ----------------------------
-DROP TABLE IF EXISTS `terminal_device`;
-CREATE TABLE `terminal_device`
-(
-    `id`                               int unsigned AUTO_INCREMENT NOT NULL,
-    `terminal_device_id`               varchar(6) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '终端侧设备id（主键）',
-    `terminal_device_ip`               varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '终端设备ip',
-    `terminal_device_name`             varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '终端侧设备名称',
-    `terminal_device_center_device_id` varchar(6) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '该终端设备所属中心侧设备',
-    `terminal_device_key_state`         varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否接受密钥',
-    `terminal_device_description`         varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备地点（描述）',
-    PRIMARY KEY (`id`, `terminal_device_id`) USING BTREE,
-    INDEX                              `terminal_device_center_device_id`(`terminal_device_center_device_id`) USING BTREE,
-    INDEX                              `terminal_device_id`(`terminal_device_id`) USING BTREE,
-    CONSTRAINT `terminal_device_ibfk_1` FOREIGN KEY (`terminal_device_center_device_id`) REFERENCES `center_device` (`center_device_id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of terminal_device
--- ----------------------------
-
--- ----------------------------
 -- Table structure for ukey_info
 -- ----------------------------
 DROP TABLE IF EXISTS `ukey_info`;
@@ -314,7 +313,6 @@ CREATE TABLE `ukey_info`
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
 (
-    `id`               int unsigned AUTO_INCREMENT NOT NULL,
     `user_id`          varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户id',
     `username`         varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户姓名',
     `password`         varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户密码',
@@ -323,7 +321,7 @@ CREATE TABLE `user`
     `user_phone_number` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户手机号',
     `user_state`       varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '用户状态（是否启用）',
     `user_role_id`     varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户角色',
-    PRIMARY KEY (`id`, `user_id`) USING BTREE,
+    PRIMARY KEY (`user_id`) USING BTREE,
     INDEX              `user_id`(`user_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -331,7 +329,7 @@ CREATE TABLE `user`
 -- Records of user
 -- ----------------------------
 INSERT INTO `user`
-VALUES (1, '1', 'zrh', '123456', NULL, NULL, NULL, '1', NULL);
+VALUES ('1', 'zrh', '123456', NULL, NULL, NULL, '1', NULL);
 
 -- ----------------------------
 -- Table structure for user_role
