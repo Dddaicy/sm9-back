@@ -27,8 +27,9 @@ public class RelationService {
         return relationDao.deleteRelation(centerDeviceId, terminalDeviceIds);
     }
 
-    public void addRelation(String centerDeviceId, String terminalDeviceId) {
-        relationDao.addRelation(centerDeviceId, terminalDeviceId);
+
+    public void addRelation(Relation relation){
+        relationDao.addRelation(relation);
     }
 
     public int getRelationCount() {
