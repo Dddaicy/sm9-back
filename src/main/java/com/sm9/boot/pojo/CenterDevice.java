@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 @Data
 public class CenterDevice implements Serializable {
-    private int id;
     private String centerDeviceId;
     private String centerDeviceIp;
     private String centerDeviceName;
