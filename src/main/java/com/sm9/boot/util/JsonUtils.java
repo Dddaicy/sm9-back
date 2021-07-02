@@ -6,6 +6,7 @@ import com.sm9.boot.config.exception.CommonJsonException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 
+import static com.sm9.boot.util.ErrorEnum.E_90000;
 import static com.sm9.boot.util.SuccessEnum.S_90000;
 
 public class JsonUtils {
@@ -56,11 +57,19 @@ public class JsonUtils {
         return resultJson;
     }
 
-    public static JSONObject successJson(Object info) {
+    public static JSONObject errorJson(String reason, String msg){
+        JSONObject resultJson = new JSONObject();
+        resultJson.put("code", E_90000.getErrorCode());
+        resultJson.put("reason", reason);
+        resultJson.put("msg", msg);
+        return resultJson;
+    }
+
+    public static JSONObject successJson(Object data) {
         JSONObject resultJson = new JSONObject();
         resultJson.put("code", S_90000.getCode());
         resultJson.put("msg", S_90000.getMsg());
-        resultJson.put("info", info);
+        resultJson.put("data", data);
         return resultJson;
     }
 
