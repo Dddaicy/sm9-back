@@ -1,8 +1,10 @@
 package com.sm9.boot.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.sm9.boot.pojo.Ukey;
 import com.sm9.boot.service.UkeyService;
+import com.sm9.boot.util.JsonUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +19,7 @@ public class UkeyController {
     }
 
     @GetMapping("/ukeys")
-    public Ukey makeUkey(@RequestParam("id")String centerDeviceId){
-        return ukeyService.getUkeyByCenterDeviceId(centerDeviceId);
+    public JSONObject makeUkey(@RequestParam("id")String centerDeviceId){
+        return JsonUtils.successJson(ukeyService.getUkeyByCenterDeviceId(centerDeviceId));
     }
 }
