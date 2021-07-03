@@ -299,8 +299,8 @@ CREATE TABLE `ukey_info`
     PRIMARY KEY (`id`) USING BTREE,
     INDEX                     `ukey_center_device_id`(`ukey_center_device_id`) USING BTREE,
     INDEX                     `ukey_terminal_device_id`(`ukey_terminal_device_id`) USING BTREE,
-    CONSTRAINT `ukey_info_ibfk_1` FOREIGN KEY (`ukey_center_device_id`) REFERENCES `center_device` (`center_device_id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT `ukey_info_ibfk_2` FOREIGN KEY (`ukey_terminal_device_id`) REFERENCES `terminal_device` (`terminal_device_id`) ON DELETE SET NULL ON UPDATE CASCADE
+    CONSTRAINT `ukey_info_ibfk_1` FOREIGN KEY (`ukey_center_device_id`) REFERENCES `center_device` (`center_device_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `ukey_info_ibfk_2` FOREIGN KEY (`ukey_terminal_device_id`) REFERENCES `terminal_device` (`terminal_device_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
